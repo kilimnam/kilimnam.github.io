@@ -340,7 +340,7 @@
         if (state.funder && funderList(p).indexOf(state.funder) === -1) return false;
         if (state.year && String(p.startYear) !== state.year) return false;
         if (!q) return true;
-        return (p.name + ' ' + p.funder + ' ' + p.program + ' ' + p.period)
+        return (p.name + ' ' + p.funder + ' ' + p.period)
           .toLowerCase().indexOf(q.toLowerCase()) !== -1;
       });
       listBox.innerHTML = renderProjects(out, q);
@@ -390,8 +390,10 @@
         return pubItem(it, q);
       },
       haystack: function (p) {
+        // 갈래마다 채워지는 항목이 달라, 빈 값은 걸러 내고 이어 붙인다
         return [p.title, p.titleAlt, p.authors, p.venue, p.publisher, p.ym,
-                p.conference, p.org, p.country, p.dates, p.kind].join(' ');
+                p.conference, p.org, p.country, p.dates]
+          .filter(Boolean).join(' ');
       }
     });
 
