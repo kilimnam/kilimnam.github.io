@@ -356,7 +356,10 @@ select.pill option {
   font-size: 15px; color: var(--muted); font-weight: 400;
   letter-spacing: .06em; margin-left: 8px;
 }
-.sys__lede { margin: 0 0 14px; font-size: 15.5px; color: var(--ink-soft); max-width: 68ch; }
+.sys__lede { margin: 0 0 18px; font-size: 15.5px; color: var(--ink-soft); max-width: 68ch; }
+/* "한국어 신어는…" 처럼 다음 내용을 이끄는 한 줄 */
+.sys__q { margin: 0 0 2px; font-size: 15.5px; font-weight: 700; color: var(--ink); }
+.sys__body p { max-width: 68ch; }
 .sys__body .bullets { margin-bottom: 16px; }
 
 /* 바깥 사이트로 나가는 단추 */
