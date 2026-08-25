@@ -198,7 +198,9 @@
         '<div class="proj__name">' + hit(esc(sp(p.name)), q) +
           (isOngoing(p) ? '<span class="badge-now">진행 중</span>' : '') +
         '</div>' +
-        '<div class="proj__funder">' + hit(esc(p.funder), q) + '</div>' +
+        // 사업명은 적어 둔 항목에만 대괄호로 덧붙인다
+        '<div class="proj__funder">' + hit(esc(p.funder), q) +
+          (p.program ? ' [' + hit(esc(p.program), q) + ']' : '') + '</div>' +
       '</div>' +
       '</li>';
   }
@@ -350,7 +352,7 @@
         if (state.funder && funderList(p).indexOf(state.funder) === -1) return false;
         if (state.year && String(p.startYear) !== state.year) return false;
         if (!q) return true;
-        return (p.name + ' ' + p.funder + ' ' + p.period)
+        return (p.name + ' ' + p.funder + ' ' + (p.program || '') + ' ' + p.period)
           .toLowerCase().indexOf(q.toLowerCase()) !== -1;
       });
       listBox.innerHTML = renderProjects(out, q);

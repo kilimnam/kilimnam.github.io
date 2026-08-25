@@ -356,6 +356,21 @@ select.pill option {
   font-size: 15px; color: var(--muted); font-weight: 400;
   letter-spacing: .06em; margin-left: 8px;
 }
+/* 설명은 왼쪽, 그림은 오른쪽 */
+.sys { display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: start; }
+.sys__figure { margin: 0; }
+.sys__figure img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--line); border-radius: var(--r);
+}
+.sys__figure figcaption {
+  margin-top: 8px; font-size: 12.5px; color: var(--muted); text-align: center;
+}
+@media (max-width: 860px) {
+  .sys { grid-template-columns: 1fr; gap: 24px; }
+  .sys__figure { max-width: 420px; }
+}
+
 .sys__lede { margin: 0 0 18px; font-size: 15.5px; color: var(--ink-soft); max-width: 68ch; }
 /* "한국어 신어는…" 처럼 다음 내용을 이끄는 한 줄 */
 .sys__q { margin: 0 0 2px; font-size: 15.5px; font-weight: 700; color: var(--ink); }
