@@ -69,6 +69,41 @@
     return r;
   }
 
+  /* ---------- 한국어 / English 전환 ----------
+     소개 페이지에만 버튼이 있다. 기본은 영어이고, 고른 언어는 브라우저에 기억된다. */
+  function initLang() {
+    var btn = document.querySelector('.lang-btn');
+    if (!btn) return;
+
+    function paint(lang) {
+      var root = document.documentElement;
+      root.setAttribute('data-lang', lang);
+      root.lang = lang;
+      btn.textContent = lang === 'en' ? '한국어' : 'English';
+      btn.setAttribute('aria-label', lang === 'en' ? '한국어로 보기' : 'View in English');
+    }
+
+    var cur = 'en';
+    try { cur = localStorage.getItem('lang') || 'en'; } catch (e) {}
+    paint(cur);
+
+    btn.addEventListener('click', function () {
+      cur = (document.documentElement.getAttribute('data-lang') === 'en') ? 'ko' : 'en';
+      paint(cur);
+      try { localStorage.setItem('lang', cur); } catch (e) {}
+    });
+  }
+
+  // 괄호 앞뒤를 띄운다. "Linguistics(3rd edition)" → "Linguistics (3rd edition)"
+  // 맨 앞이 "(재)", "(주)"처럼 괄호로 시작하는 경우는 앞쪽에 붙일 글자가 없어 그대로다.
+  function sp(s) {
+    return String(s == null ? '' : s)
+      .replace(/(\S)\(/g, '$1 (')
+      .replace(/\)(\S)/g, ') $1')
+      .replace(/[ ]{2,}/g, ' ')
+      .trim();
+  }
+
   /* ---------- 테마 전환 ---------- */
   function initTheme() {
     var btn = document.querySelector('.theme-btn');
@@ -102,49 +137,49 @@
 
   function pubItem(p, q) {
     var volno = '';
-    if (p.vol && p.no) volno = p.vol + '(' + p.no + ')';
+    if (p.vol && p.no) volno = p.vol + ' (' + p.no + ')';
     else volno = p.vol || p.no || '';
     var meta = join([
       '<span class="pub__authors">' + authors(p.authors, q) + '</span>',
-      p.venue ? '<span class="venue">' + hit(esc(p.venue), q) + '</span>' +
+      p.venue ? '<span class="venue">' + hit(esc(sp(p.venue)), q) + '</span>' +
                 (volno ? ' ' + esc(volno) : '') + (p.pages ? ', ' + esc(p.pages) : '') : '',
       esc(p.ym || p.year || '')
     ]);
     return '<li class="pub">' +
-      '<div class="pub__title">' + hit(esc(p.title), q) +
+      '<div class="pub__title">' + hit(esc(sp(p.title)), q) +
         tags(p) +
       '</div>' +
       '<div class="pub__meta">' + meta + '</div>' +
-      (p.titleAlt ? '<div class="pub__alt">' + hit(esc(p.titleAlt), q) + '</div>' : '') +
+      (p.titleAlt ? '<div class="pub__alt">' + hit(esc(sp(p.titleAlt)), q) + '</div>' : '') +
       '</li>';
   }
 
   function bookItem(b, q) {
     var meta = join([
-      b.publisher ? hit(esc(b.publisher), q) : '',
+      b.publisher ? hit(esc(sp(b.publisher)), q) : '',
       // '저서'는 거의 모든 항목에 붙어 있어 굳이 보이지 않는다
       b.kind && b.kind !== '저서' ? esc(b.kind) : '',
       esc(b.ym || ''),
       roleLabel(b.role, 'book')
     ]);
     return '<li class="pub">' +
-      '<div class="pub__title">' + hit(esc(b.title), q) +
+      '<div class="pub__title">' + hit(esc(sp(b.title)), q) +
         tags(b) +
       '</div>' +
       '<div class="pub__meta">' + meta + '</div>' +
-      (b.titleAlt ? '<div class="pub__alt">' + hit(esc(b.titleAlt), q) + '</div>' : '') +
+      (b.titleAlt ? '<div class="pub__alt">' + hit(esc(sp(b.titleAlt)), q) + '</div>' : '') +
       '</li>';
   }
 
   function confItem(c, q) {
     var meta = join([
-      c.conference ? '<span class="venue">' + hit(esc(c.conference), q) + '</span>' : '',
-      c.org ? hit(esc(c.org), q) : '',
+      c.conference ? '<span class="venue">' + hit(esc(sp(c.conference)), q) + '</span>' : '',
+      c.org ? hit(esc(sp(c.org)), q) : '',
       esc(c.country || ''),
       esc(c.dates && c.dates !== '-' ? c.dates : (c.year || ''))
     ]);
     return '<li class="pub">' +
-      '<div class="pub__title">' + hit(esc(c.title || c.conference), q) +
+      '<div class="pub__title">' + hit(esc(sp(c.title || c.conference)), q) +
         tags(c) +
       '</div>' +
       '<div class="pub__meta">' + meta + '</div>' +
@@ -156,12 +191,10 @@
     return '<li class="proj">' +
       '<div class="proj__period">' + esc(p.period) + '</div>' +
       '<div>' +
-        '<div class="proj__name">' + hit(esc(p.name), q) +
+        '<div class="proj__name">' + hit(esc(sp(p.name)), q) +
           (isOngoing(p) ? '<span class="badge-now">진행 중</span>' : '') +
         '</div>' +
-        '<div class="proj__funder">' +
-          join([hit(esc(p.funder), q), roleLabel(p.role)]) +
-        '</div>' +
+        '<div class="proj__funder">' + hit(esc(p.funder), q) + '</div>' +
       '</div>' +
       '</li>';
   }
@@ -199,22 +232,6 @@
       list.map(function (p) { return projItem(p, q); }).join('') + '</ul>';
   }
 
-  /* ---------- 연도 히스토그램 ---------- */
-  function buildHisto(box, years, counts, onPick, picked, unit) {
-    var max = Math.max.apply(null, counts);
-    box.innerHTML = years.map(function (y, i) {
-      var h = Math.max(4, Math.round(counts[i] / max * 100));
-      return '<button type="button" class="' + (String(picked) === String(y) ? 'on' : '') + '"' +
-             ' style="height:' + h + '%" data-year="' + y + '"' +
-             ' title="' + y + '년 · ' + counts[i] + unit + '"' +
-             ' aria-label="' + y + '년 ' + counts[i] + unit + '"></button>';
-    }).join('');
-    box.onclick = function (e) {
-      var b = e.target.closest('button');
-      if (b) onPick(b.dataset.year);
-    };
-  }
-
   /* ---------- 목록 페이지 공통 ----------
      설정 하나로 논문·저역서·학술발표 페이지를 모두 처리합니다. */
   function initListPage(cfg) {
@@ -230,8 +247,6 @@
     var typeSel = document.getElementById('type');
     var cnt = document.getElementById('count');
     var reset = document.getElementById('reset');
-    var histo = document.getElementById('histo');
-    var axis = document.getElementById('histo-axis');
 
     // 연도가 없는 항목(원본에 개최일자가 비어 있는 경우)은 집계에서 뺀다
     var byYear = {};
@@ -248,9 +263,6 @@
           return '<option value="' + y + '">' + y + ' (' + byYear[y] + ')</option>';
         }).join('') +
         (undated ? '<option value="none">연도 미상 (' + undated + ')</option>' : '');
-    }
-    if (axis && years.length) {
-      axis.innerHTML = '<span>' + years[0] + '</span><span>' + years[years.length - 1] + '</span>';
     }
 
     var state = { q: '', year: '', kind: '', type: '' };
@@ -270,7 +282,6 @@
       cnt.innerHTML = '<b>' + out.length + '</b>' + cfg.unit +
         (out.length !== data.length ? ' <span style="opacity:.6">/ 전체 ' + data.length + '</span>' : '');
       reset.hidden = !(state.q || state.year || state.kind || state.type);
-      if (histo) buildHisto(histo, years, counts, pickYear, state.year, cfg.unit);
     }
 
     function pickYear(y) {
@@ -308,16 +319,11 @@
     var sel = document.getElementById('funder');
     var cnt = document.getElementById('count');
     var reset = document.getElementById('reset');
-    var histo = document.getElementById('histo');
-    var axis = document.getElementById('histo-axis');
 
     var byYear = {};
     data.forEach(function (p) { byYear[p.startYear] = (byYear[p.startYear] || 0) + 1; });
     var years = Object.keys(byYear).map(Number).sort(function (a, b) { return a - b; });
     var counts = years.map(function (y) { return byYear[y]; });
-    if (axis && years.length) {
-      axis.innerHTML = '<span>' + years[0] + '</span><span>' + years[years.length - 1] + '</span>';
-    }
 
     // "문화체육관광부, 국립국어원"처럼 공동 발주는 기관별로 나눠 센다
     var byFunder = {};
@@ -347,7 +353,6 @@
       cnt.innerHTML = '<b>' + out.length + '</b>건' +
         (out.length !== data.length ? ' <span style="opacity:.6">/ 전체 ' + data.length + '</span>' : '');
       reset.hidden = !(state.q || state.funder || state.year);
-      if (histo) buildHisto(histo, years, counts, pickYear, state.year, '건');
     }
 
     function pickYear(y) {
@@ -369,6 +374,7 @@
   /* ---------- 시작 ---------- */
   document.addEventListener('DOMContentLoaded', function () {
     initTheme();
+    initLang();
 
     // 논문(J)과 학술발표(C)를 한 목록으로 합쳐 보여 준다
     initListPage({
