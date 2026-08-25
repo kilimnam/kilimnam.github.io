@@ -156,6 +156,10 @@
 
   function bookItem(b, q) {
     var meta = join([
+      // 저자가 적힌 항목만 저자를 보여 준다
+      b.authors ? '<span class="pub__authors">' + authors(b.authors, q) + '</span>' : '',
+      // 단행본 속 한 장(章)이면 실린 책 이름을 밝힌다
+      b.container ? 'In <span class="venue">' + hit(esc(sp(b.container)), q) + '</span>' : '',
       b.publisher ? hit(esc(sp(b.publisher)), q) : '',
       // '저서'는 거의 모든 항목에 붙어 있어 굳이 보이지 않는다
       b.kind && b.kind !== '저서' ? esc(b.kind) : '',

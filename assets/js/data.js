@@ -195,13 +195,13 @@ window.PROJECTS = [
 
 /* 저역서 (B) */
 window.BOOKS = [
-  { id: "B1", year: 2026, ym: "2026.06", title: "International Encyclopedia of Language and Linguistics(3rd edition)", titleAlt: "", publisher: "Elsevier", kind: "저서", intl: true, role: "공동" },
+  { id: "B1", year: 2026, ym: "2026.06", title: "Korean Lexicography", titleAlt: "", authors: "Kilim Nam, Hae-Yun Jung, Soojin Lee", container: "International Encyclopedia of Language and Linguistics (3rd edition)", publisher: "Elsevier", kind: "저서", intl: true, role: "공동" },
   { id: "B2", year: 2025, ym: "2025.12", title: "신어 2024새로운 시도, 생성형 AI를 활용한 신어 탐지", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "책임" },
-  { id: "B3", year: 2025, ym: "2025.11", title: "인공지능과 언어윤리", titleAlt: "", publisher: "커뮤니케이션북스", kind: "저서", intl: false, role: "공동" },
+  { id: "B3", year: 2025, ym: "2025.11", title: "인공지능과 언어윤리", titleAlt: "", authors: "남길임, 송현주", publisher: "커뮤니케이션북스", kind: "저서", intl: false, role: "공동" },
   { id: "B4", year: 2024, ym: "2024.12", title: "신어 2023 - 신어는 어디에서 탄생하고 확산하는가?", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "공동" },
   { id: "B5", year: 2024, ym: "2024.11", title: "신어 연구, 그 성과와 전망", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "공동" },
   { id: "B6", year: 2022, ym: "2022.12", title: "신어 2021-코로나 19 시대, 우리는 일상 회복 중인가?", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "책임" },
-  { id: "B7", year: 2022, ym: "2022.03", title: "The Bloomsbury Handbook of Lexicography 2nd Edition, Aspects of multi-word expressions in Asian lexicography.", titleAlt: "아시아사전학의 다단어 표현의 양상 고찰", publisher: "Bloomsbury", kind: "저서", intl: true, role: "공동" },
+  { id: "B7", year: 2022, ym: "2022.03", title: "Aspects of Multi-word Expressions in Asian Lexicography", titleAlt: "아시아사전학의 다단어 표현의 양상 고찰", authors: "Vincent Ooi, Ai Inoue, Kilim Nam, Cuilian Zhao", container: "The Bloomsbury Handbook of Lexicography (2nd ed.)", publisher: "Bloomsbury", kind: "저서", intl: true, role: "공동" },
   { id: "B8", year: 2022, ym: "2022.02", title: "현대신어연구", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "책임" },
   { id: "B9", year: 2021, ym: "2021.05", title: "외국인을 위한 사전에 없는 진짜 한국어 2", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "공동" },
   { id: "B10", year: 2021, ym: "2021.04", title: "신어 2020 코로나 팬데믹 시대의 새로운 언어", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "공동" },
@@ -266,7 +266,6 @@ window.CONFERENCES = [
   { id: "C42", year: null, dates: "–", conference: "제 21회 한말연구학회 전국학술대회", title: "사전편찬학 연구사", titleAlt: "", org: "", country: "대한민국", intl: false, authors: "남길임" },
   { id: "C43", year: 2004, dates: "–", conference: "한국 언어학회(LSK)", title: "A Comparative Study of Conjunctions in Spoken and Written Korean", titleAlt: "구어와 문어 한국어에 있어서 접속 현상 비교 연구", org: "", country: "", intl: true, authors: "" },
   { id: "C44", year: null, dates: "–", conference: "Euralex", title: "Compiling a Monolingual Dictionary as an Active Dictionary", titleAlt: "능동 사전으로서의 단일어 사전 편찬에 대하여", org: "", country: "", intl: true, authors: "" },
-  { id: "C45", year: null, dates: "–", conference: "한국어 세계화 추진 위원회", title: "Characteristics of subentries on", titleAlt: "외국인을 위한 의 부표제어의 특성", org: "", country: "", intl: true, authors: "" },
   { id: "C46", year: null, dates: "–", conference: "담화인지언어학회", title: "한국어 구어 텍스트에서의 조사, 어미의 분포와 사용 양상에 대하여-대학생 대화 말뭉치를 중심으로", titleAlt: "", org: "", country: "", intl: false, authors: "" },
   { id: "C47", year: null, dates: "–", conference: "담화인지언어학회", title: "대학생 구어 말뭉치에 나타난 문형 연구- 구어 문형의 특징 및 실현 양상을 중심으로", titleAlt: "", org: "", country: "", intl: false, authors: "" },
   { id: "C48", year: 2002, dates: "–", conference: "한국언어학회", title: "'이다' 구문의 유형 연구", titleAlt: "", org: "", country: "", intl: false, authors: "" },
