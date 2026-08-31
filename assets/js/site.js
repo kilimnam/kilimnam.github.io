@@ -52,23 +52,6 @@
     };
   }
 
-  // "공동(교신)" → "교신저자" 처럼 읽기 좋게.
-  // 저역서에서는 '책임'이 대표저자를 뜻하므로 kind로 구분한다.
-  function roleLabel(r, kind) {
-    if (!r) return '';
-    if (r === '단독') return '단독저자';
-    if (r === '책임') return kind === 'book' ? '대표저자' : '연구책임자';
-    if (r === '연구책임자') return '연구책임자';
-    var m = /^공동\(([^)]*)\)$/.exec(r);
-    if (m) {
-      if (m[1] === '교신') return '교신저자';
-      if (m[1] === '제1') return '제1저자';
-      return '공동연구원';
-    }
-    if (r === '공동') return '공동저자';
-    return r;
-  }
-
   // 연구사업 목록에서는 역할을 짧게만 밝힌다
   function shortRole(r) {
     if (!r) return '';
@@ -170,8 +153,7 @@
       b.publisher ? hit(esc(sp(b.publisher)), q) : '',
       // '저서'는 거의 모든 항목에 붙어 있어 굳이 보이지 않는다
       b.kind && b.kind !== '저서' ? esc(b.kind) : '',
-      esc(b.ym || ''),
-      roleLabel(b.role, 'book')
+      esc(b.ym || '')
     ]);
     return '<li class="pub">' +
       '<div class="pub__title">' + hit(esc(sp(b.title)), q) +
