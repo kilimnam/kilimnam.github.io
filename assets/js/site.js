@@ -69,6 +69,13 @@
     return r;
   }
 
+  // 연구사업 목록에서는 역할을 짧게만 밝힌다
+  function shortRole(r) {
+    if (!r) return '';
+    if (r === '연구책임자' || r === '책임') return '책임';
+    return '공동';
+  }
+
   /* ---------- 한국어 / English 전환 ----------
      소개 페이지에만 버튼이 있다. 기본은 영어이고, 고른 언어는 브라우저에 기억된다. */
   function initLang() {
@@ -198,9 +205,14 @@
         '<div class="proj__name">' + hit(esc(sp(p.name)), q) +
           (isOngoing(p) ? '<span class="badge-now">진행 중</span>' : '') +
         '</div>' +
-        // 사업명은 적어 둔 항목에만 대괄호로 덧붙인다
-        '<div class="proj__funder">' + hit(esc(p.funder), q) +
-          (p.program ? ' [' + hit(esc(p.program), q) + ']' : '') + '</div>' +
+        // 사업명은 적어 둔 항목에만 대괄호로 덧붙인다.
+        // 역할(책임/공동)은 진행 중인 과제에만 밝힌다.
+        '<div class="proj__funder">' +
+          join([
+            hit(esc(p.funder), q) + (p.program ? ' [' + hit(esc(p.program), q) + ']' : ''),
+            isOngoing(p) ? shortRole(p.role) : ''
+          ]) +
+        '</div>' +
       '</div>' +
       '</li>';
   }
@@ -320,7 +332,13 @@
   function initProjects() {
     var listBox = document.getElementById('proj-list');
     if (!listBox) return;
-    var data = (window.PROJECTS || []).slice();
+    // 시작 연월이 늦은 것부터. 데이터에 적은 순서와 상관없이 항상 최신순이 된다.
+    function startNum(p) {
+      var m = /^(\d{4})\.(\d{2})/.exec(p.period || '');
+      return m ? +m[1] * 12 + +m[2] : 0;
+    }
+    var data = (window.PROJECTS || []).slice()
+      .sort(function (a, b) { return startNum(b) - startNum(a); });
     var input = document.getElementById('q');
     var sel = document.getElementById('funder');
     var cnt = document.getElementById('count');
