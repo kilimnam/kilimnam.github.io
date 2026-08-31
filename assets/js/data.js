@@ -195,7 +195,7 @@ window.PROJECTS = [
 
 /* 저역서 (B) */
 window.BOOKS = [
-  { id: "B1", year: 2026, ym: "2026.06", title: "Korean Lexicography", titleAlt: "", authors: "Kilim Nam, Hae-Yun Jung, Soojin Lee", container: "International Encyclopedia of Language and Linguistics (3rd edition)", publisher: "Elsevier", kind: "저서", intl: true, role: "공동" },
+  { id: "B1", year: 2026, ym: "2026.06", title: "Korean Lexicography", titleAlt: "", authors: "Kilim Nam, Hae-Yun Jung, Soojin Lee", container: "International Encyclopedia of Language and Linguistics (3rd edition)", publisher: "Elsevier", kind: "저서", intl: true, role: "주저자" },
   { id: "B2", year: 2025, ym: "2025.12", title: "신어 2024새로운 시도, 생성형 AI를 활용한 신어 탐지", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "책임" },
   { id: "B3", year: 2025, ym: "2025.11", title: "인공지능과 언어윤리", titleAlt: "", authors: "남길임, 송현주", publisher: "커뮤니케이션북스", kind: "저서", intl: false, role: "공동" },
   { id: "B4", year: 2024, ym: "2024.12", title: "신어 2023 - 신어는 어디에서 탄생하고 확산하는가?", titleAlt: "", publisher: "한국문화사", kind: "저서", intl: false, role: "공동" },
