@@ -89,7 +89,8 @@
   function sp(s) {
     return String(s == null ? '' : s)
       .replace(/(\S)\(/g, '$1 (')
-      .replace(/\)(\S)/g, ') $1')
+      // 닫는 괄호 뒤가 쉼표·마침표 같은 문장부호면 띄우지 않는다
+      .replace(/\)([^\s,.;:!?)\]}])/g, ') $1')
       .replace(/[ ]{2,}/g, ' ')
       .trim();
   }
