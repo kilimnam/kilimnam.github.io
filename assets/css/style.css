@@ -95,15 +95,15 @@ h1, h2, h3, h4 {
 }
 .topbar__inner { display: flex; align-items: center; gap: 20px; height: 64px; }
 
+/* 상단 왼쪽은 연구실 이름 한 줄 (한국어/영어는 .ko·.en으로 갈린다) */
 .brand {
-  font-family: var(--font); font-weight: 700; font-size: 17px;
-  letter-spacing: 0; color: var(--ink); white-space: nowrap;
+  font-family: var(--font); font-weight: 700; font-size: 18px;
+  letter-spacing: -.01em; color: var(--ink); white-space: nowrap;
 }
 .brand:hover { text-decoration: none; }
-.brand span {
-  color: var(--muted); font-family: var(--font); font-weight: 400;
-  font-size: 13px; margin-left: 8px;
-}
+/* 내비까지 한 줄에 들어가지 않는 폭에서는 조금 줄인다 */
+@media (max-width: 1040px) { .brand { font-size: 16px; } }
+@media (max-width: 880px)  { .brand { font-size: 15px; white-space: normal; } }
 
 .nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
 .nav a {
@@ -412,7 +412,6 @@ select.pill option {
   .portrait { max-width: 180px; }
   .news li { grid-template-columns: 1fr; gap: 2px; }
   .proj { grid-template-columns: 1fr; gap: 4px; }
-  .brand span { display: none; }
   .nav a { padding: 7px 9px; font-size: 13.5px; }
   .section { padding: 44px 0; }
   .filters { position: static; }
